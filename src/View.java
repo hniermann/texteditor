@@ -1,27 +1,17 @@
+import javax.swing.JFrame;
+
 /**
  *
  *
  * @author Henry Niermann
  *
  */
-public final class View {
+public class View extends JFrame {
 
-    /**
-     * Private constructor so this utility class cannot be instantiated.
-     */
-    private View() {
-    }
-
-    /**
-     * Main method.
-     *
-     * @param args
-     *            the command line arguments
-     */
-    public static void main(String[] args) {
-        /*
-         * Put your main program code here
-         */
+    public View() {
+        JFrame outline = new JFrame();
+        outline.setBounds(100, 100, 500, 300);
+        this.setVisible(true);
     }
 
 }
