@@ -6,6 +6,8 @@ public final class TextEditor extends View {
     }
 
     public static void main(String args[]) {
-        View output = new View();
+        Model model = new Model();
+        View view = new View();
+        Controller controller = new Controller(view, model);
     }
 }

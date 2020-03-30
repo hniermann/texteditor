@@ -1,9 +1,8 @@
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
-import javax.swing.JEditorPane;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JTextArea;
 
 /**
  *
@@ -13,21 +12,30 @@ import javax.swing.JMenuBar;
  */
 public class View extends JFrame {
 
+    JTextArea text;
+
     public View() {
-        JFrame outline = new JFrame();
+        //Create outline
+        JFrame outline = new JFrame("*Unnamed");
         outline.setBounds(100, 100, 500, 300);
-        JEditorPane text = new JEditorPane();
-        text.setText("e");
-        JMenuBar menu = new JMenuBar();
 
-        outline.setLayout(new GridBagLayout());
+        //Create text area
+        this.text = new JTextArea();
 
-        GridBagConstraints c = new GridBagConstraints();
-        c.gridheight = 1;
-        c.gridwidth = 3;
+        //Create menu bar
+        JMenuBar menuBar = new JMenuBar();
+        JMenu fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
 
-        outline.add(menu, c);
-        outline.add(text);
+        //Create menu functionality
+        JMenuItem save = new JMenuItem("Save");
+        fileMenu.add(save);
+        JMenuItem saveAs = new JMenuItem("Save as");
+        fileMenu.add(saveAs);
+
+        //Put everything together
+        outline.setJMenuBar(menuBar);
+        outline.add(this.text);
         outline.setVisible(true);
     }
 

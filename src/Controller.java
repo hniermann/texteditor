@@ -1,27 +1,23 @@
 /**
- * Put a short phrase describing the program here.
  *
- * @author Put your name here
+ *
+ * @author Henry Niermann
  *
  */
-public final class Controller {
+public class Controller {
 
-    /**
-     * Private constructor so this utility class cannot be instantiated.
-     */
-    private Controller() {
+    private View view;
+
+    private Model model;
+
+    public Controller(View view1, Model model1) {
+        this.view = view1;
+        this.model = model1;
     }
 
-    /**
-     * Main method.
-     *
-     * @param args
-     *            the command line arguments
-     */
-    public static void main(String[] args) {
-        /*
-         * Put your main program code here
-         */
+    public void saveEvent() {
+        String lines = this.view.text.getText();
+        this.model.writeToFile(lines);
     }
 
 }
