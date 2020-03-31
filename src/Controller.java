@@ -22,4 +22,8 @@ public class Controller {
         this.view.changeDocName(this.model.getName());
     }
 
+    public void unsavedTextEvent() {
+        this.view.changeDocName("*" + this.model.getName());
+    }
+
 }

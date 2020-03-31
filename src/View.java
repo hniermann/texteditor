@@ -6,6 +6,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTextArea;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  *
@@ -13,7 +15,7 @@ import javax.swing.JTextArea;
  * @author Henry Niermann
  *
  */
-public class View extends JFrame implements ActionListener {
+public class View extends JFrame implements ActionListener, DocumentListener {
 
     JFrame outline;
 
@@ -32,6 +34,7 @@ public class View extends JFrame implements ActionListener {
 
         //Create text area
         this.text = new JTextArea();
+        this.text.getDocument().addDocumentListener(this);
 
         //Create menu bar
         JMenuBar menuBar = new JMenuBar();
@@ -69,6 +72,24 @@ public class View extends JFrame implements ActionListener {
         if (source == this.save) {
             this.control.saveEvent();
         }
+        if (source == this.text) {
+            this.control.unsavedTextEvent();
+        }
+    }
+
+    @Override
+    public void removeUpdate(DocumentEvent event) {
+        this.control.unsavedTextEvent();
+    }
+
+    @Override
+    public void insertUpdate(DocumentEvent event) {
+        this.control.unsavedTextEvent();
+    }
+
+    @Override
+    public void changedUpdate(DocumentEvent event) {
+        this.control.unsavedTextEvent();
     }
 
 }
