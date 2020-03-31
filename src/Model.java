@@ -28,6 +28,10 @@ public final class Model {
         this.name = name1;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     public String getText() {
         return this.text;
     }

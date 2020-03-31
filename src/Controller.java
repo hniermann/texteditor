@@ -18,6 +18,8 @@ public class Controller {
     public void saveEvent() {
         this.model.setText(this.view.getText().getText());
         this.model.saveFile();
+        System.out.println(this.model.getName());
+        this.view.changeDocName(this.model.getName());
     }
 
 }

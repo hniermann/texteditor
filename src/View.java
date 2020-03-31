@@ -15,36 +15,40 @@ import javax.swing.JTextArea;
  */
 public class View extends JFrame implements ActionListener {
 
+    JFrame outline;
+
     JTextArea text;
 
     JMenuItem save;
+
+    JMenu fileMenu;
 
     Controller control;
 
     public View() {
         //Create outline
-        JFrame outline = new JFrame("*Unnamed");
-        outline.setBounds(100, 100, 500, 300);
+        this.outline = new JFrame("*Unnamed");
+        this.outline.setBounds(100, 100, 500, 300);
 
         //Create text area
         this.text = new JTextArea();
 
         //Create menu bar
         JMenuBar menuBar = new JMenuBar();
-        JMenu fileMenu = new JMenu("File");
-        menuBar.add(fileMenu);
+        this.fileMenu = new JMenu("File");
+        menuBar.add(this.fileMenu);
 
         //Create menu functionality
         this.save = new JMenuItem("Save");
         this.save.addActionListener(this);
-        fileMenu.add(this.save);
+        this.fileMenu.add(this.save);
 
         this.registerObserver(this.control);
 
         //Put everything together
-        outline.setJMenuBar(menuBar);
-        outline.add(this.text);
-        outline.setVisible(true);
+        this.outline.setJMenuBar(menuBar);
+        this.outline.add(this.text);
+        this.outline.setVisible(true);
     }
 
     public JTextArea getText() {
@@ -53,6 +57,10 @@ public class View extends JFrame implements ActionListener {
 
     public void registerObserver(Controller controller) {
         this.control = controller;
+    }
+
+    public void changeDocName(String name) {
+        this.outline.setTitle(name);
     }
 
     @Override
