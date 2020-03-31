@@ -1,3 +1,6 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -10,9 +13,13 @@ import javax.swing.JTextArea;
  * @author Henry Niermann
  *
  */
-public class View extends JFrame {
+public class View extends JFrame implements ActionListener {
 
     JTextArea text;
+
+    JMenuItem save;
+
+    Controller control;
 
     public View() {
         //Create outline
@@ -28,15 +35,32 @@ public class View extends JFrame {
         menuBar.add(fileMenu);
 
         //Create menu functionality
-        JMenuItem save = new JMenuItem("Save");
-        fileMenu.add(save);
-        JMenuItem saveAs = new JMenuItem("Save as");
-        fileMenu.add(saveAs);
+        this.save = new JMenuItem("Save");
+        this.save.addActionListener(this);
+        fileMenu.add(this.save);
+
+        this.registerObserver(this.control);
 
         //Put everything together
         outline.setJMenuBar(menuBar);
         outline.add(this.text);
         outline.setVisible(true);
+    }
+
+    public JTextArea getText() {
+        return this.text;
+    }
+
+    public void registerObserver(Controller controller) {
+        this.control = controller;
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent event) {
+        Object source = event.getSource();
+        if (source == this.save) {
+            this.control.saveEvent();
+        }
     }
 
 }

@@ -9,5 +9,7 @@ public final class TextEditor extends View {
         Model model = new Model();
         View view = new View();
         Controller controller = new Controller(view, model);
+
+        view.registerObserver(controller);
     }
 }

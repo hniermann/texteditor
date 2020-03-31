@@ -16,8 +16,8 @@ public class Controller {
     }
 
     public void saveEvent() {
-        String lines = this.view.text.getText();
-        this.model.writeToFile(lines);
+        this.model.setText(this.view.getText().getText());
+        this.model.saveFile();
     }
 
 }

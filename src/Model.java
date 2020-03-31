@@ -17,14 +17,9 @@ public final class Model {
     File file;
 
     public Model() {
-        this.file = new File(this.destination + "Unnamed.txt");
-        this.name = "Unnamed";
+        this.name = "Unnamed.txt";
+        this.file = new File(this.destination + this.name);
         this.text = "";
-        try {
-            this.file.createNewFile();
-        } catch (IOException e) {
-            System.out.print(e);
-        }
     }
 
     public Model(String name1) {
@@ -33,12 +28,28 @@ public final class Model {
         this.name = name1;
     }
 
-    public File getFile() {
-        return this.file;
+    public String getText() {
+        return this.text;
     }
 
-    public void setFileName(String name) {
-        this.name = name;
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public void saveFile() {
+        if (this.name.contentEquals("Unnamed.txt")) {
+            System.out.println("Name as?");
+            Scanner system = new Scanner(System.in);
+            this.name = system.nextLine();
+            this.file = new File(this.destination + this.name);
+            try {
+                this.file.createNewFile();
+            } catch (IOException e) {
+                System.out.print(e);
+            }
+        } else {
+            this.writeToFile(this.text);
+        }
     }
 
     public void writeToFile(String text) {
