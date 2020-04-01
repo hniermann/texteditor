@@ -32,6 +32,10 @@ public final class Model {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getText() {
         return this.text;
     }
@@ -40,20 +44,20 @@ public final class Model {
         this.text = text;
     }
 
+    public void setPath(String path) {
+        this.destination = path;
+    }
+
     public void saveFile() {
-        if (this.name.contentEquals("Unnamed.txt")) {
-            System.out.println("Name as?");
-            Scanner system = new Scanner(System.in);
-            this.name = system.nextLine();
-            this.file = new File(this.destination + this.name);
-            try {
-                this.file.createNewFile();
-            } catch (IOException e) {
-                System.out.print(e);
-            }
-        } else {
-            this.writeToFile(this.text);
+
+        this.file = new File(this.destination + this.name);
+        try {
+            this.file.createNewFile();
+        } catch (IOException e) {
+            System.out.print(e);
         }
+
+        this.writeToFile(this.text);
     }
 
     public void writeToFile(String text) {

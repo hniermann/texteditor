@@ -1,11 +1,15 @@
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -23,9 +27,17 @@ public class View extends JFrame implements ActionListener, DocumentListener {
 
     JMenuItem save;
 
+    JMenuItem saveAs;
+
     JMenu fileMenu;
 
+    JTextPane name;
+
+    JTextPane pathway;
+
     Controller control;
+
+    JButton saveButton;
 
     public View() {
         //Create outline
@@ -45,6 +57,10 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         this.save = new JMenuItem("Save");
         this.save.addActionListener(this);
         this.fileMenu.add(this.save);
+
+        this.saveAs = new JMenuItem("Save as...");
+        this.saveAs.addActionListener(this);
+        this.fileMenu.add(this.saveAs);
 
         this.registerObserver(this.control);
 
@@ -72,24 +88,73 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         if (source == this.save) {
             this.control.saveEvent();
         }
+        if (source == this.saveAs) {
+            this.control.saveAsWindowEvent();
+        }
+        if (source == this.saveButton) {
+            this.control.saveAsConfirmedEvent();
+        }
         if (source == this.text) {
             this.control.unsavedTextEvent();
         }
     }
 
+    public void queueName() {
+        JFrame nameWindow = new JFrame();
+
+        GridLayout grid = new GridLayout(4, 1);
+        nameWindow.setLayout(grid);
+
+        JLabel queue = new JLabel("File Name:");
+        this.name = new JTextPane();
+
+        JLabel path = new JLabel("Path:");
+        this.pathway = new JTextPane();
+
+        this.saveButton = new JButton("Save");
+        this.saveButton.addActionListener(this);
+
+        nameWindow.add(queue);
+        nameWindow.add(this.name);
+        nameWindow.add(path);
+        nameWindow.add(this.pathway);
+        nameWindow.add(this.saveButton);
+
+        nameWindow.setVisible(true);
+
+    }
+
+    public String getNewName() {
+        return this.name.getText();
+    }
+
+    public String getNewPath() {
+        return this.pathway.getText();
+    }
+
     @Override
     public void removeUpdate(DocumentEvent event) {
-        this.control.unsavedTextEvent();
+        Object source = event.getDocument();
+        if (source == this.text.getDocument()) {
+            this.control.unsavedTextEvent();
+        }
     }
 
     @Override
     public void insertUpdate(DocumentEvent event) {
-        this.control.unsavedTextEvent();
+        Object source = event.getDocument();
+        if (source == this.text.getDocument()) {
+            this.control.unsavedTextEvent();
+        }
+
     }
 
     @Override
     public void changedUpdate(DocumentEvent event) {
-        this.control.unsavedTextEvent();
+        Object source = event.getDocument();
+        if (source == this.text.getDocument()) {
+            this.control.unsavedTextEvent();
+        }
     }
 
 }
