@@ -17,7 +17,7 @@ public final class Model {
     File file;
 
     public Model() {
-        this.name = "*Unnamed.txt";
+        this.name = "Unnamed.txt";
         this.file = new File(this.destination + this.name);
         this.text = "";
     }
