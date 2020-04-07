@@ -4,27 +4,27 @@ import java.io.IOException;
 import java.util.Scanner;
 
 /**
- * Put a short phrase describing the program here.
+ * Model. Stores file writing, pathway, file name
  *
  * @author Henry Niermann
  *
  */
 public final class Model {
 
-    String destination = "C:\\Users\\henry\\";
+    String destination = "C:\\Users\\Public\\";
     String name;
     String text;
     File file;
 
     public Model() {
-        this.name = "Unnamed.txt";
+        this.name = "*Unnamed.txt";
         this.file = new File(this.destination + this.name);
         this.text = "";
     }
 
     public Model(String name1) {
         this.file = new File(name1 + ".txt");
-        this.destination = "C:\\Users\\henry\\";
+        this.destination = "C:\\Users\\";
         this.name = name1;
     }
 

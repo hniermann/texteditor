@@ -29,7 +29,13 @@ public class View extends JFrame implements ActionListener, DocumentListener {
 
     JMenuItem saveAs;
 
+    JMenuItem open;
+
+    JButton openButton;
+
     JMenu fileMenu;
+
+    JTextPane pathname;
 
     JTextPane name;
 
@@ -41,7 +47,7 @@ public class View extends JFrame implements ActionListener, DocumentListener {
 
     public View() {
         //Create outline
-        this.outline = new JFrame("*Unnamed");
+        this.outline = new JFrame("*Unnamed.txt");
         this.outline.setBounds(100, 100, 500, 300);
 
         //Create text area
@@ -62,12 +68,17 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         this.saveAs.addActionListener(this);
         this.fileMenu.add(this.saveAs);
 
+        this.open = new JMenuItem("Open");
+        this.open.addActionListener(this);
+        this.fileMenu.add(this.open);
+
         this.registerObserver(this.control);
 
         //Put everything together
         this.outline.setJMenuBar(menuBar);
         this.outline.add(this.text);
         this.outline.setVisible(true);
+        this.outline.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     public JTextArea getText() {
@@ -121,6 +132,28 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         nameWindow.add(this.saveButton);
 
         nameWindow.setVisible(true);
+        nameWindow.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+    }
+
+    public void queueOpen() {
+        JFrame openWindow = new JFrame();
+
+        GridLayout grid = new GridLayout(2, 1);
+        openWindow.setLayout(grid);
+
+        JLabel queue = new JLabel("File Path:");
+        this.pathname = new JTextPane();
+
+        this.openButton = new JButton("open");
+        this.openButton.addActionListener(this);
+
+        openWindow.add(queue);
+        openWindow.add(this.pathname);
+        openWindow.add(this.openButton);
+
+        openWindow.setVisible(true);
+        openWindow.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
     }
 
