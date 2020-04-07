@@ -42,7 +42,7 @@ public class View extends JFrame implements ActionListener, DocumentListener {
     public View() {
         //Create outline
         this.outline = new JFrame("*Unnamed");
-        this.outline.setBounds(100, 100, 500, 300);
+        this.outline.setBounds(500, 250, 500, 300);
 
         //Create text area
         this.text = new JTextArea();

@@ -16,6 +16,10 @@ public class Controller {
     }
 
     public void saveEvent() {
+        if (this.model.getName().indexOf('*') != -1) {
+            this.model.setName(this.model.getName().substring(1));
+            this.view.changeDocName(this.model.getName());
+        }
         this.model.setText(this.view.getText().getText());
         this.model.saveFile();
     }
@@ -33,7 +37,10 @@ public class Controller {
     }
 
     public void unsavedTextEvent() {
-        this.view.changeDocName("*" + this.model.getName());
+        if (!this.model.getName().contains("*")) {
+            this.view.changeDocName("*" + this.model.getName());
+            this.model.setName("*" + this.model.getName());
+        }
     }
 
 }
