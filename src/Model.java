@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
@@ -23,9 +25,21 @@ public final class Model {
     }
 
     public Model(String name1) {
-        this.file = new File(name1 + ".txt");
-        this.destination = "C:\\Users\\";
+        this.file = new File(name1);
         this.name = name1;
+        BufferedReader words;
+        try {
+            words = new BufferedReader(new FileReader(this.file));
+            String line = words.readLine();
+            while (line != null) {
+                this.text = this.text + line;
+                line = words.readLine();
+            }
+            words.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public String getName() {

@@ -43,4 +43,10 @@ public class Controller {
         }
     }
 
+    public void openButtonEvent(String path) {
+        this.model = new Model(path);
+        this.view.writeText(this.model.getText());
+        this.view.changeDocName(this.model.getName());
+    }
+
 }

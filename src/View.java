@@ -85,6 +85,10 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         return this.text;
     }
 
+    public void writeText(String text) {
+        this.text.append(text);
+    }
+
     public void registerObserver(Controller controller) {
         this.control = controller;
     }
@@ -107,6 +111,12 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         }
         if (source == this.text) {
             this.control.unsavedTextEvent();
+        }
+        if (source == this.open) {
+            this.queueOpen();
+        }
+        if (source == this.openButton) {
+            this.control.openButtonEvent(this.pathname.getText());
         }
     }
 
@@ -145,7 +155,7 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         JLabel queue = new JLabel("File Path:");
         this.pathname = new JTextPane();
 
-        this.openButton = new JButton("open");
+        this.openButton = new JButton("Open");
         this.openButton.addActionListener(this);
 
         openWindow.add(queue);
