@@ -1,6 +1,7 @@
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -91,8 +92,12 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         return this.text;
     }
 
-    public void writeText(String text) {
-        this.text.append(text);
+    public void writeText(List<String> text) {
+        while (text.size() > 0) {
+            String line = text.remove(0);
+            this.text.append(line);
+        }
+
     }
 
     public void registerObserver(Controller controller) {

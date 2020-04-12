@@ -1,3 +1,7 @@
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
+
 /**
  *
  *
@@ -16,7 +20,13 @@ public class Controller {
     }
 
     public void saveEvent() {
-        this.model.setText(this.view.getText().getText());
+        Scanner input = new Scanner(this.view.getText().getText());
+        List<String> viewWords = new LinkedList<>();
+        while (input.hasNextLine()) {
+            viewWords.add(input.nextLine());
+        }
+
+        this.model.setText(viewWords);
         if (this.model.getName().contains("*")) {
             this.view.changeDocName(this.model.getName().substring(1));
             this.model.setName(this.model.getName().substring(1));
@@ -29,7 +39,13 @@ public class Controller {
     }
 
     public void saveAsConfirmedEvent() {
-        this.model.setText(this.view.getText().getText());
+        Scanner input = new Scanner(this.view.getText().getText());
+        List<String> viewWords = new LinkedList<>();
+        while (input.hasNextLine()) {
+            viewWords.add(input.nextLine());
+        }
+
+        this.model.setText(viewWords);
         this.model.setName(this.view.getNewName());
         this.model.setPath(this.view.getNewPath());
         this.model.saveFile();

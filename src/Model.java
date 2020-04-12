@@ -3,7 +3,8 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Scanner;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Model. Stores file writing, pathway, file name
@@ -15,24 +16,32 @@ public final class Model {
 
     String destination = "C:\\Users\\Public\\";
     String name;
-    String text;
+    List<String> text;
     File file;
 
     public Model() {
         this.name = "*Unnamed.txt";
         this.file = new File(this.destination + this.name);
-        this.text = "";
+        this.text = new LinkedList<>();
     }
 
-    public Model(String name1) {
-        this.file = new File(name1);
-        this.name = name1;
+    public Model(String destination) {
+        this.file = new File(destination);
+        this.destination = destination;
+
+        int index = destination.length() - 1;
+        while (this.destination.charAt(index) != '\\') {
+            index--;
+        }
+        this.name = this.destination.substring(index + 1);
+
+        this.text = new LinkedList<>();
         BufferedReader words;
         try {
             words = new BufferedReader(new FileReader(this.file));
             String line = words.readLine();
             while (line != null) {
-                this.text = this.text + line;
+                this.text.add(line);
                 line = words.readLine();
             }
             words.close();
@@ -50,11 +59,11 @@ public final class Model {
         this.name = name;
     }
 
-    public String getText() {
+    public List<String> getText() {
         return this.text;
     }
 
-    public void setText(String text) {
+    public void setText(List<String> text) {
         this.text = text;
     }
 
@@ -74,10 +83,10 @@ public final class Model {
         this.writeToFile(this.text);
     }
 
-    public void writeToFile(String text) {
-        Scanner input = new Scanner(text);
-        while (input.hasNext()) {
-            String s = input.nextLine();
+    public void writeToFile(List<String> text2) {
+
+        while (text2.size() > 0) {
+            String s = text2.remove(0);
 
             try {
                 FileWriter write = new FileWriter(this.file);
@@ -87,7 +96,7 @@ public final class Model {
                 System.out.println(e);
             }
         }
-        input.close();
+
     }
 
 }
