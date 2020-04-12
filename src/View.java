@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 import javax.swing.event.DocumentEvent;
@@ -54,6 +55,11 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         this.text = new JTextArea();
         this.text.getDocument().addDocumentListener(this);
 
+        //Create scrolling area
+        JScrollPane scroller = new JScrollPane(this.text,
+                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
         //Create menu bar
         JMenuBar menuBar = new JMenuBar();
         this.fileMenu = new JMenu("File");
@@ -76,7 +82,7 @@ public class View extends JFrame implements ActionListener, DocumentListener {
 
         //Put everything together
         this.outline.setJMenuBar(menuBar);
-        this.outline.add(this.text);
+        this.outline.add(scroller);
         this.outline.setVisible(true);
         this.outline.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
