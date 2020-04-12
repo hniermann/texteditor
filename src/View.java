@@ -1,4 +1,6 @@
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -12,6 +14,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -50,7 +53,14 @@ public class View extends JFrame implements ActionListener, DocumentListener {
     public View() {
         //Create outline
         this.outline = new JFrame("*Unnamed.txt");
-        this.outline.setBounds(100, 100, 500, 300);
+        this.outline.pack();
+
+        //Set outline location to center, set bounds to half screen
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = screenSize.height;
+        int width = screenSize.width;
+        this.outline.setSize(width / 2, height / 2);
+        this.outline.setLocationRelativeTo(null);
 
         //Create text area
         this.text = new JTextArea();
@@ -58,7 +68,7 @@ public class View extends JFrame implements ActionListener, DocumentListener {
 
         //Create scrolling area
         JScrollPane scroller = new JScrollPane(this.text,
-                JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
         //Create menu bar
@@ -133,6 +143,13 @@ public class View extends JFrame implements ActionListener, DocumentListener {
 
     public void queueName() {
         JFrame nameWindow = new JFrame();
+        nameWindow.pack();
+
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = screenSize.height;
+        int width = screenSize.width;
+        nameWindow.setSize(width / 5, height / 5);
+        nameWindow.setLocationRelativeTo(null);
 
         GridLayout grid = new GridLayout(4, 1);
         nameWindow.setLayout(grid);
@@ -159,14 +176,23 @@ public class View extends JFrame implements ActionListener, DocumentListener {
 
     public void queueOpen() {
         JFrame openWindow = new JFrame();
+        openWindow.pack();
 
-        GridLayout grid = new GridLayout(2, 1);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = screenSize.height;
+        int width = screenSize.width;
+        openWindow.setSize(width / 5, height / 5);
+        openWindow.setLocationRelativeTo(null);
+
+        GridLayout grid = new GridLayout(3, 0);
         openWindow.setLayout(grid);
 
-        JLabel queue = new JLabel("File Path:");
+        JLabel queue = new JLabel("File Path:", SwingConstants.CENTER);
+
         this.pathname = new JTextPane();
 
         this.openButton = new JButton("Open");
+
         this.openButton.addActionListener(this);
 
         openWindow.add(queue);
