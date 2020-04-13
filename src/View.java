@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -5,12 +6,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextPane;
@@ -66,8 +69,20 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         this.text = new JTextArea();
         this.text.getDocument().addDocumentListener(this);
 
+        //Create lines
+        JTextArea lines = new JTextArea();
+        lines.setEditable(false);
+
+        //Pack it all
+
+        JPanel combo = new JPanel();
+
+        combo.add(lines);
+        combo.add(this.text);
+
         //Create scrolling area
-        JScrollPane scroller = new JScrollPane(this.text,
+
+        JScrollPane scroller = new JScrollPane(combo,
                 JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
                 JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
@@ -94,8 +109,53 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         //Put everything together
         this.outline.setJMenuBar(menuBar);
         this.outline.add(scroller);
+
+        Dimension panelSize = scroller.getSize();
+        Dimension lineSize = new Dimension(panelSize.height,
+                panelSize.width / 10);
+        lines.setSize(panelSize);
+        Dimension textAreaSize = new Dimension(panelSize.height,
+                panelSize.width / 10);
+        this.text.setSize(textAreaSize);
+
         this.outline.setVisible(true);
         this.outline.setDefaultCloseOperation(EXIT_ON_CLOSE);
+    }
+
+    public View(boolean go) {
+        JFrame out = new JFrame();
+
+        out.pack();
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int height = screenSize.height;
+        int width = screenSize.width;
+        out.setSize(width / 2, height / 2);
+        out.setLocationRelativeTo(null);
+
+        JPanel c = new JPanel();
+
+        JTextArea a = new JTextArea(15, 2);
+        a.setEditable(false);
+        a.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        JTextArea b = new JTextArea(15, 70);
+        b.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        JMenuBar bar = new JMenuBar();
+        JMenuItem p = new JMenuItem("P");
+        bar.add(p);
+        out.setJMenuBar(bar);
+
+        c.add(a);
+        c.add(b);
+
+        JScrollPane scroller = new JScrollPane(c,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+        out.add(scroller);
+
+        out.setVisible(true);
+        out.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     public JTextArea getText() {
