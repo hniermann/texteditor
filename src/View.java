@@ -66,11 +66,13 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         this.outline.setLocationRelativeTo(null);
 
         //Create text area
-        this.text = new JTextArea();
+        this.text = new JTextArea(15, 70);
         this.text.getDocument().addDocumentListener(this);
+        this.text.setBorder(BorderFactory.createLineBorder(Color.BLACK));
 
         //Create lines
-        JTextArea lines = new JTextArea();
+        JTextArea lines = new JTextArea(15, 2);
+        lines.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         lines.setEditable(false);
 
         //Pack it all
@@ -110,52 +112,8 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         this.outline.setJMenuBar(menuBar);
         this.outline.add(scroller);
 
-        Dimension panelSize = scroller.getSize();
-        Dimension lineSize = new Dimension(panelSize.height,
-                panelSize.width / 10);
-        lines.setSize(panelSize);
-        Dimension textAreaSize = new Dimension(panelSize.height,
-                panelSize.width / 10);
-        this.text.setSize(textAreaSize);
-
         this.outline.setVisible(true);
         this.outline.setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
-
-    public View(boolean go) {
-        JFrame out = new JFrame();
-
-        out.pack();
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int height = screenSize.height;
-        int width = screenSize.width;
-        out.setSize(width / 2, height / 2);
-        out.setLocationRelativeTo(null);
-
-        JPanel c = new JPanel();
-
-        JTextArea a = new JTextArea(15, 2);
-        a.setEditable(false);
-        a.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        JTextArea b = new JTextArea(15, 70);
-        b.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-
-        JMenuBar bar = new JMenuBar();
-        JMenuItem p = new JMenuItem("P");
-        bar.add(p);
-        out.setJMenuBar(bar);
-
-        c.add(a);
-        c.add(b);
-
-        JScrollPane scroller = new JScrollPane(c,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
-        out.add(scroller);
-
-        out.setVisible(true);
-        out.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
     public JTextArea getText() {

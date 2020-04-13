@@ -26,11 +26,11 @@ public final class TextEditor extends View {
             e.printStackTrace();
         }
 
-        //Model model = new Model();
+        Model model = new Model();
         View view = new View();
-        //Controller controller = new Controller(view, model);
+        Controller controller = new Controller(view, model);
 
-        //view.registerObserver(controller);
-        View view1 = new View(true);
+        view.registerObserver(controller);
+
     }
 }
