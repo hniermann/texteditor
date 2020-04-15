@@ -2,12 +2,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-/**
- *
- *
- * @author Henry Niermann
- *
- */
 public class Controller {
 
     private View view;

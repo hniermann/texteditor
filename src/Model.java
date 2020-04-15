@@ -6,12 +6,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * Model. Stores file writing, pathway, file name
- *
- * @author Henry Niermann
- *
- */
 public final class Model {
 
     String destination = "C:\\Users\\Public\\";

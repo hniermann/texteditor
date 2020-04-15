@@ -1,9 +1,12 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowStateListener;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -16,18 +19,15 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-/**
- *
- *
- * @author Henry Niermann
- *
- */
-public class View extends JFrame implements ActionListener, DocumentListener {
+public class View extends JFrame
+        implements ActionListener, DocumentListener, WindowStateListener {
 
     JFrame outline;
 
@@ -45,9 +45,9 @@ public class View extends JFrame implements ActionListener, DocumentListener {
 
     JTextPane pathname;
 
-    JTextPane name;
+    JTextField name;
 
-    JTextPane pathway;
+    JTextField pathway;
 
     Controller control;
 
@@ -69,6 +69,7 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         this.text = new JTextArea(15, 70);
         this.text.getDocument().addDocumentListener(this);
         this.text.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        this.text.setLineWrap(true);
 
         //Create lines
         JTextArea lines = new JTextArea(15, 2);
@@ -160,36 +161,86 @@ public class View extends JFrame implements ActionListener, DocumentListener {
     }
 
     public void queueName() {
-        JFrame nameWindow = new JFrame();
-        nameWindow.pack();
+        JFrame frame = new JFrame("Save as");
+        frame.setBounds(100, 100, 450, 300);
+        frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int height = screenSize.height;
         int width = screenSize.width;
-        nameWindow.setSize(width / 5, height / 5);
-        nameWindow.setLocationRelativeTo(null);
+        frame.setSize(width / 5, height / 5);
+        frame.setLocationRelativeTo(null);
 
-        GridLayout grid = new GridLayout(4, 1);
-        nameWindow.setLayout(grid);
+        SpringLayout springLayout = new SpringLayout();
+        frame.getContentPane().setLayout(springLayout);
 
-        JLabel queue = new JLabel("File Name:");
-        this.name = new JTextPane();
+        JLabel lblName = new JLabel("Name:");
+        springLayout.putConstraint(SpringLayout.WEST, lblName, 21,
+                SpringLayout.WEST, frame.getContentPane());
+        lblName.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        frame.getContentPane().add(lblName);
 
-        JLabel path = new JLabel("Path:");
-        this.pathway = new JTextPane();
+        JLabel lblPath = new JLabel("Path:");
+        springLayout.putConstraint(SpringLayout.NORTH, lblName, 6,
+                SpringLayout.SOUTH, lblPath);
+        springLayout.putConstraint(SpringLayout.EAST, lblName, 0,
+                SpringLayout.EAST, lblPath);
+        springLayout.putConstraint(SpringLayout.WEST, lblPath, 34,
+                SpringLayout.WEST, frame.getContentPane());
+        lblPath.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        frame.getContentPane().add(lblPath);
+
+        this.name = new JTextField();
+        springLayout.putConstraint(SpringLayout.EAST, this.name, -86,
+                SpringLayout.EAST, frame.getContentPane());
+        this.name.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+        frame.getContentPane().add(this.name);
+        this.name.setColumns(10);
 
         this.saveButton = new JButton("Save");
+        springLayout.putConstraint(SpringLayout.SOUTH, this.name, -21,
+                SpringLayout.NORTH, this.saveButton);
+        springLayout.putConstraint(SpringLayout.NORTH, this.saveButton, 79,
+                SpringLayout.NORTH, frame.getContentPane());
+        springLayout.putConstraint(SpringLayout.WEST, this.saveButton, 146,
+                SpringLayout.WEST, frame.getContentPane());
+        springLayout.putConstraint(SpringLayout.SOUTH, this.saveButton, -10,
+                SpringLayout.SOUTH, frame.getContentPane());
         this.saveButton.addActionListener(this);
+        this.saveButton.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        frame.getContentPane().add(this.saveButton);
 
-        nameWindow.add(queue);
-        nameWindow.add(this.name);
-        nameWindow.add(path);
-        nameWindow.add(this.pathway);
-        nameWindow.add(this.saveButton);
+        this.pathway = new JTextField();
+        springLayout.putConstraint(SpringLayout.NORTH, this.name, 6,
+                SpringLayout.SOUTH, this.pathway);
+        springLayout.putConstraint(SpringLayout.NORTH, lblPath, 0,
+                SpringLayout.NORTH, this.pathway);
+        springLayout.putConstraint(SpringLayout.EAST, lblPath, -6,
+                SpringLayout.WEST, this.pathway);
+        springLayout.putConstraint(SpringLayout.WEST, this.name, 0,
+                SpringLayout.WEST, this.pathway);
+        springLayout.putConstraint(SpringLayout.NORTH, this.pathway, 10,
+                SpringLayout.NORTH, frame.getContentPane());
+        springLayout.putConstraint(SpringLayout.WEST, this.pathway, 85,
+                SpringLayout.WEST, frame.getContentPane());
+        springLayout.putConstraint(SpringLayout.SOUTH, this.pathway, -79,
+                SpringLayout.SOUTH, frame.getContentPane());
+        springLayout.putConstraint(SpringLayout.EAST, this.pathway, -86,
+                SpringLayout.EAST, frame.getContentPane());
+        this.pathway.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        this.pathway.setColumns(10);
+        frame.getContentPane().add(this.pathway);
 
-        nameWindow.setVisible(true);
-        nameWindow.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        frame.setVisible(true);
 
+    }
+
+    public String getNewName() {
+        return this.name.getText();
+    }
+
+    public String getNewPath() {
+        return this.pathway.getText();
     }
 
     public void queueOpen() {
@@ -222,14 +273,6 @@ public class View extends JFrame implements ActionListener, DocumentListener {
 
     }
 
-    public String getNewName() {
-        return this.name.getText();
-    }
-
-    public String getNewPath() {
-        return this.pathway.getText();
-    }
-
     @Override
     public void removeUpdate(DocumentEvent event) {
         Object source = event.getDocument();
@@ -253,6 +296,12 @@ public class View extends JFrame implements ActionListener, DocumentListener {
         if (source == this.text.getDocument()) {
             this.control.unsavedTextEvent();
         }
+    }
+
+    @Override
+    public void windowStateChanged(WindowEvent e) {
+        // TODO Auto-generated method stub
+
     }
 
 }
