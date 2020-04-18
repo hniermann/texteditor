@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -16,8 +17,8 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -56,6 +57,7 @@ public class View extends JFrame
     public View() {
         //Create outline
         this.outline = new JFrame("*Unnamed.txt");
+        this.outline.addWindowStateListener(this);
         this.outline.pack();
 
         //Set outline location to center, set bounds to half screen
@@ -67,6 +69,7 @@ public class View extends JFrame
 
         //Create text area
         this.text = new JTextArea(15, 70);
+
         this.text.getDocument().addDocumentListener(this);
         this.text.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.text.setLineWrap(true);
@@ -78,10 +81,9 @@ public class View extends JFrame
 
         //Pack it all
 
-        JPanel combo = new JPanel();
-
-        combo.add(lines);
-        combo.add(this.text);
+        JSplitPane combo = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, lines,
+                this.text);
+        combo.setResizeWeight(0d / 10d);
 
         //Create scrolling area
 
@@ -300,7 +302,10 @@ public class View extends JFrame
 
     @Override
     public void windowStateChanged(WindowEvent e) {
-        // TODO Auto-generated method stub
+        if ((e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
+            System.out.print("maximized");
+
+        }
 
     }
 
