@@ -3,10 +3,6 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 public final class TextEditor extends View {
 
-    private TextEditor() {
-
-    }
-
     public static void main(String args[]) {
 
         // Set System L&F

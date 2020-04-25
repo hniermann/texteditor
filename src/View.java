@@ -1,8 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Frame;
-import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,9 +19,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SpringLayout;
-import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -44,7 +41,7 @@ public class View extends JFrame
 
     JMenu fileMenu;
 
-    JTextPane pathname;
+    JTextField pathname;
 
     JTextField name;
 
@@ -57,7 +54,7 @@ public class View extends JFrame
     public View() {
         //Create outline
         this.outline = new JFrame("*Unnamed.txt");
-        this.outline.addWindowStateListener(this);
+
         this.outline.pack();
 
         //Set outline location to center, set bounds to half screen
@@ -77,6 +74,13 @@ public class View extends JFrame
         //Create lines
         JTextArea lines = new JTextArea(15, 2);
         lines.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+
+        int lineHeight = lines.getRows();
+        int i = 1;
+        while (i <= lineHeight + 1) {
+            lines.append(Integer.toString(i) + "\n");
+            i++;
+        }
         lines.setEditable(false);
 
         //Pack it all
@@ -87,10 +91,9 @@ public class View extends JFrame
 
         //Create scrolling area
 
-        JScrollPane scroller = new JScrollPane(combo,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-
+        JScrollPane scroller = new JScrollPane(combo);
+        scroller.setVerticalScrollBarPolicy(
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         //Create menu bar
         JMenuBar menuBar = new JMenuBar();
         this.fileMenu = new JMenu("File");
@@ -126,7 +129,7 @@ public class View extends JFrame
     public void writeText(List<String> text) {
         while (text.size() > 0) {
             String line = text.remove(0);
-            this.text.append(line);
+            this.text.append(line + "\n");
         }
 
     }
@@ -179,23 +182,23 @@ public class View extends JFrame
         JLabel lblName = new JLabel("Name:");
         springLayout.putConstraint(SpringLayout.WEST, lblName, 21,
                 SpringLayout.WEST, frame.getContentPane());
-        lblName.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        lblName.setFont(new Font("Tacoma", Font.PLAIN, 15));
         frame.getContentPane().add(lblName);
 
-        JLabel lblPath = new JLabel("Path:");
+        JLabel lblPath = new JLabel("Directory:");
         springLayout.putConstraint(SpringLayout.NORTH, lblName, 6,
                 SpringLayout.SOUTH, lblPath);
         springLayout.putConstraint(SpringLayout.EAST, lblName, 0,
                 SpringLayout.EAST, lblPath);
         springLayout.putConstraint(SpringLayout.WEST, lblPath, 34,
                 SpringLayout.WEST, frame.getContentPane());
-        lblPath.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        lblPath.setFont(new Font("Tacoma", Font.PLAIN, 15));
         frame.getContentPane().add(lblPath);
 
         this.name = new JTextField();
         springLayout.putConstraint(SpringLayout.EAST, this.name, -86,
                 SpringLayout.EAST, frame.getContentPane());
-        this.name.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+        this.name.setFont(new Font("Tacoma", Font.PLAIN, 15));
         frame.getContentPane().add(this.name);
         this.name.setColumns(10);
 
@@ -209,7 +212,7 @@ public class View extends JFrame
         springLayout.putConstraint(SpringLayout.SOUTH, this.saveButton, -10,
                 SpringLayout.SOUTH, frame.getContentPane());
         this.saveButton.addActionListener(this);
-        this.saveButton.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+        this.saveButton.setFont(new Font("Tacoma", Font.PLAIN, 15));
         frame.getContentPane().add(this.saveButton);
 
         this.pathway = new JTextField();
@@ -229,7 +232,7 @@ public class View extends JFrame
                 SpringLayout.SOUTH, frame.getContentPane());
         springLayout.putConstraint(SpringLayout.EAST, this.pathway, -86,
                 SpringLayout.EAST, frame.getContentPane());
-        this.pathway.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+        this.pathway.setFont(new Font("Tacoma", Font.PLAIN, 15));
         this.pathway.setColumns(10);
         frame.getContentPane().add(this.pathway);
 
@@ -255,23 +258,27 @@ public class View extends JFrame
         openWindow.setSize(width / 5, height / 5);
         openWindow.setLocationRelativeTo(null);
 
-        GridLayout grid = new GridLayout(3, 0);
-        openWindow.setLayout(grid);
+        openWindow.setBounds(100, 100, 450, 185);
+        openWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        openWindow.getContentPane().setLayout(null);
 
-        JLabel queue = new JLabel("File Path:", SwingConstants.CENTER);
+        JLabel lblNewLabel = new JLabel("Absolute Path:");
+        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        lblNewLabel.setBounds(10, 39, 55, 35);
+        openWindow.getContentPane().add(lblNewLabel);
 
-        this.pathname = new JTextPane();
+        this.pathname = new JTextField();
+        this.pathname.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        this.pathname.setBounds(73, 39, 338, 35);
+        openWindow.getContentPane().add(this.pathname);
+        this.pathname.setColumns(10);
 
         this.openButton = new JButton("Open");
-
+        this.openButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
+        this.openButton.setBounds(155, 102, 89, 23);
+        openWindow.getContentPane().add(this.openButton);
         this.openButton.addActionListener(this);
-
-        openWindow.add(queue);
-        openWindow.add(this.pathname);
-        openWindow.add(this.openButton);
-
         openWindow.setVisible(true);
-        openWindow.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
     }
 
@@ -302,10 +309,7 @@ public class View extends JFrame
 
     @Override
     public void windowStateChanged(WindowEvent e) {
-        if ((e.getNewState() & Frame.MAXIMIZED_BOTH) == Frame.MAXIMIZED_BOTH) {
-            System.out.print("maximized");
-
-        }
+        // TODO Auto-generated method stub
 
     }
 
