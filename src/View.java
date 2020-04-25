@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowStateListener;
+import java.awt.print.PrinterException;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -51,6 +52,8 @@ public class View extends JFrame
 
     JButton saveButton;
 
+    JMenuItem print;
+
     public View() {
         //Create outline
         this.outline = new JFrame("*Unnamed.txt");
@@ -70,6 +73,9 @@ public class View extends JFrame
         this.text.getDocument().addDocumentListener(this);
         this.text.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.text.setLineWrap(true);
+        JScrollPane textScroll = new JScrollPane(this.text);
+        textScroll.setVerticalScrollBarPolicy(
+                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
         //Create lines
         JTextArea lines = new JTextArea(15, 2);
@@ -86,14 +92,11 @@ public class View extends JFrame
         //Pack it all
 
         JSplitPane combo = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, lines,
-                this.text);
+                textScroll);
         combo.setResizeWeight(0d / 10d);
 
         //Create scrolling area
 
-        JScrollPane scroller = new JScrollPane(combo);
-        scroller.setVerticalScrollBarPolicy(
-                ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         //Create menu bar
         JMenuBar menuBar = new JMenuBar();
         this.fileMenu = new JMenu("File");
@@ -112,11 +115,15 @@ public class View extends JFrame
         this.open.addActionListener(this);
         this.fileMenu.add(this.open);
 
+        this.print = new JMenuItem("Print");
+        this.print.addActionListener(this);
+        this.fileMenu.add(this.print);
+
         this.registerObserver(this.control);
 
         //Put everything together
         this.outline.setJMenuBar(menuBar);
-        this.outline.add(scroller);
+        this.outline.add(combo);
 
         this.outline.setVisible(true);
         this.outline.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -127,6 +134,7 @@ public class View extends JFrame
     }
 
     public void writeText(List<String> text) {
+        this.text.setText("");
         while (text.size() > 0) {
             String line = text.remove(0);
             this.text.append(line + "\n");
@@ -162,6 +170,14 @@ public class View extends JFrame
         }
         if (source == this.openButton) {
             this.control.openButtonEvent(this.pathname.getText());
+        }
+        if (source == this.print) {
+            try {
+                this.text.print();
+            } catch (PrinterException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
         }
     }
 
